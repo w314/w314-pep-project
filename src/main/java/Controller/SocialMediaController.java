@@ -18,7 +18,13 @@ public class SocialMediaController {
         Javalin app = Javalin.create();
         app.get("example-endpoint", this::exampleHandler);
 
+        // create endpoints
+        app.post("/register", this::createUser);
         return app;
+    }
+
+    private void createUser(Context ctx) {
+        
     }
 
     /**

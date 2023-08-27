@@ -4,19 +4,22 @@ package DAO;
 // import ConnectionUtility
 import Util.ConnectionUtil;
 
+// import Account class
+import Model.Account;
+
 import java.sql.*;
 
 public class AccountDAOmySQLImpl implements AccountDAO {
 
     @Override
-    public boolean createAccount(String userName, String password) {
+    public Account createAccount(String userName, String password) {
 
         try {
             // use ConnectionUtil to get connection
             // it is a static method I can call on the class
             Connection conn =  ConnectionUtil.getConnection();
 
-            // set sql string
+            // create sql string
             String sql = "INSERT INTO account (username, password) VALUES (?, ?);";
 
             // create  a preparedStatement
@@ -27,14 +30,22 @@ public class AccountDAOmySQLImpl implements AccountDAO {
             // execute preparedStatement
             ResultSet rs = ps.executeQuery(sql);
 
+            // process result
+            while(rs.next()){
+                int idReturned = rs.getInt("account_id");
+                String username = rs.getString("username");
+                String userpassword = rs.getString("password");
+                return new Account(idReturned, username, userpassword);
+            }
 
+            // close connection
+            conn.close();
         
         } catch(SQLException sqle) {
             sqle.printStackTrace();
         }
 
-
-
+        return null;
 
     }
 }

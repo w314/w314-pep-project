@@ -11,8 +11,8 @@ public interface AccountDAO {
     // CRUD Operations necessary for this App
 
     // CREATE
-    public boolean createAccount(String userName, String password);
+    public Account createAccount(String userName, String password);
 
     // READ
-    public Account getAccountById();
+    // public Account getAccountById();
 }
