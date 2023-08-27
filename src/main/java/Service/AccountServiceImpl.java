@@ -15,5 +15,15 @@ public class AccountServiceImpl implements AccountService{
     @Override
     public Account createAccount(Account account) {
 
+        System.out.println("Account in accountService:");
+        System.out.println(account);
+
+        // Account accountCreated = null;
+        if(account.password.length() >= 4) {
+            return accountDAO.createAccount(account.username, account.password);
+        }
+        // System.out.println(accountCreated);
+
+        return null;
     }
 }

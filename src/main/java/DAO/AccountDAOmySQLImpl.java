@@ -35,7 +35,12 @@ public class AccountDAOmySQLImpl implements AccountDAO {
                 int idReturned = rs.getInt("account_id");
                 String username = rs.getString("username");
                 String userpassword = rs.getString("password");
-                return new Account(idReturned, username, userpassword);
+                
+                Account account = new Account(idReturned, username, userpassword);
+                // return new Account(idReturned, username, userpassword);
+                System.out.println("In DAO returning Accountcretaed");
+                System.out.println(account);
+                return account;
             }
 
             // close connection
