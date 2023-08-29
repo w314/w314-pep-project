@@ -45,6 +45,9 @@ public class SocialMediaController {
     private void createUser(Context ctx) {
         // get information from request ctx object
         Account account = ctx.bodyAsClass(Account.class);
+
+        System.out.println("REQUEST BODY RECEIVED");
+        System.out.println(account);
         
         // call account service to validate input and create account
         Account accountCreated = accountService.createAccount(account);

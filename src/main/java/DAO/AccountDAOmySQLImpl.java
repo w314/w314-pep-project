@@ -4,7 +4,7 @@ package DAO;
 // import ConnectionUtility
 import Util.ConnectionUtil;
 
-// import Account class
+// import Account Model
 import Model.Account;
 
 import java.sql.*;
@@ -12,8 +12,11 @@ import java.sql.*;
 public class AccountDAOmySQLImpl implements AccountDAO {
 
     @Override
-    public Account createAccount(String userName, String password) {
+    public Account createAccount(String username, String password) {
 
+        System.out.println("IN DAO inputs recieved");
+        System.out.println(username);
+        System.out.println(password);
         try {
             // use ConnectionUtil to get connection
             // it is a static method I can call on the class
@@ -23,28 +26,27 @@ public class AccountDAOmySQLImpl implements AccountDAO {
             String sql = "INSERT INTO account (username, password) VALUES (?, ?);";
 
             // create  a preparedStatement
+            // use Statement interface's RETURN_GENERATED_KEYS field
+            // to make sure the generated account_id is returned
             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, userName);
+            // set the parameters
+            ps.setString(1, username);
             ps.setString(2, password);
 
             // execute preparedStatement
-            ResultSet rs = ps.executeQuery(sql);
+            ps.executeUpdate();      
 
             // process result
-            while(rs.next()){
-                int idReturned = rs.getInt("account_id");
-                String username = rs.getString("username");
-                String userpassword = rs.getString("password");
-                
-                Account account = new Account(idReturned, username, userpassword);
-                // return new Account(idReturned, username, userpassword);
-                System.out.println("In DAO returning Accountcretaed");
-                System.out.println(account);
-                return account;
+            ResultSet keys = ps.getGeneratedKeys();
+            while(keys.next()){
+                // get returned account_id
+                int account_id = keys.getInt("account_id");                
+                // return new account
+                return new Account(account_id, username, password);
             }
 
-            // close connection
-            conn.close();
+            // this would be the place to close the connection
+            // conn.close();
         
         } catch(SQLException sqle) {
             sqle.printStackTrace();
