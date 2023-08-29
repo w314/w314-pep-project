@@ -14,16 +14,29 @@ public class AccountServiceImpl implements AccountService{
 
     @Override
     public Account createAccount(Account account) {
-
-        System.out.println("Account in accountService:");
-        System.out.println(account);
-
-        // Account accountCreated = null;
-        if(account.password.length() >= 4) {
+        
+        // check validity of account fields
+        boolean validAccount = validUsername(account.getUsername()) && validPassword(account.getPassword());
+        
+        // if account if valid create account
+        if(validAccount) {
             return accountDAO.createAccount(account.username, account.password);
         }
-        // System.out.println(accountCreated);
 
+        // return null if account was invalid
         return null;
+    }
+
+    private boolean validUsername(String username) {
+        System.out.println("IN VALIDUSERNAME METHOD:");
+        System.out.println(username);
+        if(username == null) return false;
+        return true;
+    }
+
+    private boolean validPassword(String password) {
+        if(password == null) return false;
+        if(password.length() < 4) return false;
+        return true;
     }
 }

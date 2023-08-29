@@ -66,8 +66,6 @@ public class SocialMediaController {
         } else {
             // set status to 400
             ctx.status(400);
-            // send error message
-            ctx.result("Error creating user.");
         }
 
     }
