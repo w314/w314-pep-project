@@ -14,19 +14,19 @@ public interface MessageDAO {
     // CRUD Operations necessary for this App
 
     // CREATE
-    public boolean createMessage();
+    public Message createMessage(Message message);
 
     // READ
     // get message by id
-    public Message getAccountById(int messageId);
+    // public Message getAccountById(int messageId);
     // get all messages of a user
-    public List<Message> getAllMessagesByUserId(int userId);
+    // public List<Message> getAllMessagesByUserId(int userId);
     // get all messages
-    public List<Message> getAllMessages();
+    // public List<Message> getAllMessages();
 
     // UPDATE
-    public boolean updateMessageById(int messageId, String messageBody);
+    // public boolean updateMessageById(int messageId, String messageBody);
 
     // DELETE
-    public boolean deleteMessageById(int messageId);
+    // public boolean deleteMessageById(int messageId);
 }

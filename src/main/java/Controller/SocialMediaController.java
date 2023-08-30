@@ -3,11 +3,13 @@ package Controller;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
-// import Account Model
+// import Models
 import Model.Account;
+import Model.Message;
 
-// import Account Service
+// import Services
 import Service.AccountService;
+import Service.MessageService;
 
 /**
  * TODO: You will need to write your own endpoints and handlers for your controller. The endpoints you will need can be
@@ -17,10 +19,12 @@ import Service.AccountService;
 public class SocialMediaController {
 
     AccountService accountService;
+    MessageService messageService;
 
     // constructor
     public SocialMediaController() {
         accountService = new AccountService();
+        messageService = new MessageService();
     }
 
     /**
@@ -35,6 +39,7 @@ public class SocialMediaController {
         // create endpoints
         app.post("/register", this::createUser);
         app.post("/login", this::login);
+        app.post("/messages", this::createMessage);
 
         // return javalin app
         return app;
@@ -92,4 +97,27 @@ public class SocialMediaController {
             ctx.status(401);
         }
     }
+
+
+    /**
+     * This is the handler for user login.
+     * @param ctx The Javalin Context object of the Request
+     */
+    private void createMessage(Context ctx) {
+
+        Message message = ctx.bodyAsClass(Message.class);
+
+        Message createdMessage = messageService.createMessage(message);
+
+        if(createdMessage != null) {
+            ctx.status(200);
+            ctx.json(createdMessage);
+        } else {
+            ctx.status(400);
+        }
+
+        
+        
+    }
+
 }
