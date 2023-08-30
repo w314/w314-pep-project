@@ -105,6 +105,33 @@ public class MessageDAOmySQLImpl implements MessageDAO {
         }
 
         return null;
-
     }
+
+
+    /**
+     * Deletes message by message id 
+     * @param int messageId
+     * @return Message : the message deleted
+     */
+    public Message deleteMessageById(int messageId) {
+        
+        // check if message in database
+        Message message = this.getMessageByMessageId(messageId);
+
+        // if message is in database delete it
+        if(message != null) {
+            try {
+                Connection conn = ConnectionUtil.getConnection();
+                String sql = "DELETE FROM message WHERE message_id = ?;";
+                PreparedStatement ps = conn.prepareStatement(sql);
+                ps.setInt(1, messageId);
+    
+                ps.executeUpdate();
+            } catch(SQLException sqle) {
+                sqle.printStackTrace();
+            }
+        }
+
+        return message;
+    }        
 }

@@ -44,6 +44,7 @@ public class SocialMediaController {
         app.post("/messages", this::createMessage);
         app.get("/messages", this::getAllMessages);
         app.get("/messages/{message_id}", this::getMessageByMessageId);
+        app.delete("/messages/{message_id}", this::deleteMessageById);
 
         // return javalin app
         return app;
@@ -153,4 +154,23 @@ public class SocialMediaController {
         }
     }
 
+
+    /**
+     * This is the handler deleting a messages by message id
+     * @param ctx The Javalin Context object of the Request
+    */      
+    private void deleteMessageById(Context ctx) {
+        
+        // get message id from context objec and cast it as an integer
+        int messageId = Integer.valueOf(ctx.pathParam("message_id"));
+
+        Message deletedMessage = messageService.deleteMessageById(messageId);
+
+        // send response
+        ctx.status(200);
+        // if there was a message deleted send it as a JSON object
+        if(deletedMessage != null) {
+            ctx.json(deletedMessage);
+        }
+    }
 }

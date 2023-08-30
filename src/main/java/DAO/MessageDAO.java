@@ -22,6 +22,8 @@ public interface MessageDAO {
     // get message by id
     public Message getMessageByMessageId(int messageId);
 
+    // DELETE
+    public Message deleteMessageById(int messageId);
     
     // get all messages of a user
     // public List<Message> getAllMessagesByUserId(int userId);
@@ -29,6 +31,4 @@ public interface MessageDAO {
     // UPDATE
     // public boolean updateMessageById(int messageId, String messageBody);
 
-    // DELETE
-    // public boolean deleteMessageById(int messageId);
 }

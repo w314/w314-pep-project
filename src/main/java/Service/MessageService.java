@@ -86,4 +86,14 @@ public class MessageService {
     public Message getMessageByMessageId(int messageId) {
         return messageDAO.getMessageByMessageId(messageId);
     }
+
+
+    /**
+     * Deletes message by message id
+     * @param int messageId: id of the message
+     * @return Message: message deleted
+     */   
+    public Message deleteMessageById(int messageId) {
+        return messageDAO.deleteMessageById(messageId);
+    }    
 }
