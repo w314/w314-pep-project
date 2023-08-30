@@ -22,13 +22,11 @@ public interface MessageDAO {
     // get message by id
     public Message getMessageByMessageId(int messageId);
 
+    // UPDATE
+    public Message updateMessageById(int messageId, String messageText);
+
     // DELETE
     public Message deleteMessageById(int messageId);
-    
-    // get all messages of a user
-    // public List<Message> getAllMessagesByUserId(int userId);
 
-    // UPDATE
-    // public boolean updateMessageById(int messageId, String messageBody);
 
 }

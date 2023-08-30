@@ -45,6 +45,7 @@ public class SocialMediaController {
         app.get("/messages", this::getAllMessages);
         app.get("/messages/{message_id}", this::getMessageByMessageId);
         app.delete("/messages/{message_id}", this::deleteMessageById);
+        app.patch("messages/{message_id}", this::updateMessageText);
 
         // return javalin app
         return app;
@@ -162,7 +163,7 @@ public class SocialMediaController {
     private void deleteMessageById(Context ctx) {
         
         // get message id from context objec and cast it as an integer
-        int messageId = Integer.valueOf(ctx.pathParam("message_id"));
+        int messageId = Integer.valueOf(ctx.pathParam("message_id"), 10);
 
         Message deletedMessage = messageService.deleteMessageById(messageId);
 
@@ -171,6 +172,34 @@ public class SocialMediaController {
         // if there was a message deleted send it as a JSON object
         if(deletedMessage != null) {
             ctx.json(deletedMessage);
+        }
+    }
+
+
+    /**
+     * This is the handler updating a messages's text
+     * @param ctx The Javalin Context object of the Request
+    */      
+    private void updateMessageText(Context ctx) {
+        
+        // get message id
+        int messageId = Integer.valueOf(ctx.pathParam("message_id"), 10);
+        // get message text
+        String requestBody = ctx.body();
+        String messageText = requestBody
+
+        System.out.println("IN CONTROLLER MESSAGE TEXT OF REQUEST");
+        System.out.println(messageText);
+
+        // use message Service to update message
+        Message updatedMessage = messageService.updateMessageText(messageId, messageText);
+
+        // send response
+        if(updatedMessage == null) {
+            ctx.status(400);
+        } else {
+            ctx.status(200);
+            ctx.json(updatedMessage);
         }
     }
 }

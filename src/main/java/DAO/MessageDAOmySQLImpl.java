@@ -86,7 +86,8 @@ public class MessageDAOmySQLImpl implements MessageDAO {
      * Gets message by message id 
      * @param int messageId
      * @return Message : the message returned
-     */    
+     */   
+    @Override
     public Message getMessageByMessageId(int messageId) {
         try {
             Connection conn = ConnectionUtil.getConnection();
@@ -113,6 +114,7 @@ public class MessageDAOmySQLImpl implements MessageDAO {
      * @param int messageId
      * @return Message : the message deleted
      */
+    @Override
     public Message deleteMessageById(int messageId) {
         
         // check if message in database
@@ -133,5 +135,35 @@ public class MessageDAOmySQLImpl implements MessageDAO {
         }
 
         return message;
-    }        
+    }  
+    
+    
+    /**
+     * Updates text of existing message
+     * @param int messageId: id message to update
+     * @return Message : the message updated
+     */    
+    @Override
+    public Message updateMessageById(int messageId, String messageText) {
+
+        // if there is a message by the id provided update the message text
+        try {
+            Connection conn = ConnectionUtil.getConnection();
+
+            String sql = "UPDATE message SET message_text = ? WHERE message_id = ?;";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, messageId);
+            ps.setString(2, messageText);
+
+            ps.executeUpdate();
+            
+            // get updated message from database and return it
+            return this.getMessageByMessageId(messageId);
+
+        } catch(SQLException sqle) {
+            sqle.printStackTrace();
+        }
+
+        return null;
+    }
 }

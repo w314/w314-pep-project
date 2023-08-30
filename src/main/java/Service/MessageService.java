@@ -96,4 +96,27 @@ public class MessageService {
     public Message deleteMessageById(int messageId) {
         return messageDAO.deleteMessageById(messageId);
     }    
+
+        /**
+     * Updates the message text of a message
+     * @param int messageId: id of the message
+     * @return Message: message updated
+     */   
+    public Message updateMessageText(int messageId, String messageText) {
+        // get current message
+        Message originalMessage = this.getMessageByMessageId(messageId);
+
+        // if there was no original message return null
+        if(originalMessage == null) return originalMessage;
+
+        // if original message was found check validity of message text
+        if(validMessageText(messageText)) {
+            // return updated message if text was valid
+            return messageDAO.updateMessageById(messageId, messageText);
+        }
+        
+        // return null if messaget text is invalid
+        return null;
+    }
+
 }
