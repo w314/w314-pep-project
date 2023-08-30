@@ -1,8 +1,12 @@
 package DAO;
 
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+
 import Model.Message;
 import Util.ConnectionUtil;
-import java.sql.*;
 
 public class MessageDAOmySQLImpl implements MessageDAO {
 
@@ -41,5 +45,39 @@ public class MessageDAOmySQLImpl implements MessageDAO {
         }
 
         return null;
+    }
+
+
+    /**
+     * Get all messages from the message table 
+     * @return List<Message> : List of all the messages
+     */    
+    @Override
+    public List<Message> getAllMessages() {
+
+        // create empty list for messages
+        List<Message> messages = new ArrayList<>();
+
+        try {
+            Connection conn = ConnectionUtil.getConnection();
+
+            // using statement as there are no query parameters
+            Statement stmt = conn.createStatement();
+            // sql string
+            String sql = "SELECT * FROM message;";
+            // execute query
+            ResultSet rs = stmt.executeQuery(sql);
+
+            // process resultSet
+            while(rs.next()) {
+                Message message = new Message(rs.getInt("message_id"), rs.getInt("posted_by"), rs.getString("message_text"), rs.getLong("time_posted_epoch"));
+                messages.add(message);
+            }           
+        } catch(SQLException sqle) {
+            sqle.printStackTrace();
+        }
+        
+        // return list of messages
+        return messages;
     }
 }

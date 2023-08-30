@@ -3,6 +3,8 @@ package Controller;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
+import java.util.List;
+
 // import Models
 import Model.Account;
 import Model.Message;
@@ -40,6 +42,7 @@ public class SocialMediaController {
         app.post("/register", this::createUser);
         app.post("/login", this::login);
         app.post("/messages", this::createMessage);
+        app.get("/messages", this::getAllMessages);
 
         // return javalin app
         return app;
@@ -115,10 +118,17 @@ public class SocialMediaController {
             ctx.json(createdMessage);
         } else {
             ctx.status(400);
-        }
-
-        
-        
+        }       
     }
 
+
+    /**
+     * This is the handler for getting all messages
+     * @param ctx The Javalin Context object of the Request
+     */    
+    private void getAllMessages(Context ctx) {
+        List<Message> messages = messageService.getAllMessages();
+        ctx.status(200);
+        ctx.json(messages);
+    }
 }

@@ -1,5 +1,7 @@
 package Service;
 
+import java.util.List;
+
 // import Models
 import Model.Message;
 import Model.Account;
@@ -65,4 +67,13 @@ public class MessageService {
 
         return true;
     }
+
+
+    /**
+     * Uses the DAO to get all messages from the message table 
+     * @return List<Message> : List of all the messages
+     */
+    public List<Message> getAllMessages() {
+        return messageDAO.getAllMessages();
+    }       
 }

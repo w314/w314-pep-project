@@ -17,12 +17,13 @@ public interface MessageDAO {
     public Message createMessage(Message message);
 
     // READ
-    // get message by id
-    // public Message getAccountById(int messageId);
+    // get all messages
+    public List<Message> getAllMessages();
+    
     // get all messages of a user
     // public List<Message> getAllMessagesByUserId(int userId);
-    // get all messages
-    // public List<Message> getAllMessages();
+    // get message by id
+    // public Message getAccountById(int messageId);
 
     // UPDATE
     // public boolean updateMessageById(int messageId, String messageBody);
