@@ -69,10 +69,7 @@ public class AccountService{
 
         // get user from the database with the username provided
         Account userInDatabase = accountDAO.getAccountByUsername(user.getUsername());
-        System.out.println("USER TRYING TO LOG IN:");
-        System.out.println(user);
-        System.out.println("USER IN DATABASE:");
-        System.out.println(userInDatabase);
+
         // if username does not exist in the database
         // and no users were returned return null
         if(userInDatabase == null) return null;

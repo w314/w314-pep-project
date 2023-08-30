@@ -21,6 +21,8 @@ public interface MessageDAO {
     public List<Message> getAllMessages();
     // get message by id
     public Message getMessageByMessageId(int messageId);
+    // get all message of a user
+    public List<Message> getAllMessagesOfUser(int userId);
 
     // UPDATE
     public Message updateMessageById(int messageId, String messageText);

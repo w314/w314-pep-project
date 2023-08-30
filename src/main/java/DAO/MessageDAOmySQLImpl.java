@@ -166,4 +166,36 @@ public class MessageDAOmySQLImpl implements MessageDAO {
 
         return null;
     }
+
+
+    /**
+     * Gets all messages of a user
+     * @param int userId: id of user
+     * @return List<Message> : list of messages of user
+     */    
+    @Override
+    public List<Message> getAllMessagesOfUser(int userId) {
+
+        List<Message> messages = new ArrayList<>();
+
+        try {
+            Connection conn = ConnectionUtil.getConnection();
+
+            String sql = "SELECT * FROM message WHERE posted_by = ?;";
+            PreparedStatement ps = conn. prepareStatement(sql);
+            ps.setInt(1, userId);
+
+
+            ResultSet rs = ps.executeQuery();
+            
+            while(rs.next()) {
+                Message message = new Message(rs.getInt("message_id"), rs.getInt("posted_by"), rs.getString("message_text"), rs.getLong("time_posted_epoch"));
+                messages.add(message);
+            }
+        } catch(SQLException sqle) {
+            sqle.printStackTrace();
+        }
+
+        return messages;
+    }
 }

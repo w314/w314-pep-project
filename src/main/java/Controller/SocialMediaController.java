@@ -46,6 +46,7 @@ public class SocialMediaController {
         app.get("/messages/{message_id}", this::getMessageByMessageId);
         app.delete("/messages/{message_id}", this::deleteMessageById);
         app.patch("messages/{message_id}", this::updateMessageText);
+        app.get("/accounts/{account_id}/messages",this::getAllMessagesOfUser);
 
         // return javalin app
         return app;
@@ -89,8 +90,7 @@ public class SocialMediaController {
         
         // validate login with accountService
         Account validatedUser = accountService.login(user);
-        System.out.println("IN CONTROLLER, VALIDATED USER:");
-        System.out.println(validatedUser);
+
         // if there is validated user returned
         if(validatedUser != null) {
             // send 200 status code
@@ -186,10 +186,10 @@ public class SocialMediaController {
         int messageId = Integer.valueOf(ctx.pathParam("message_id"), 10);
         // get message text
         String requestBody = ctx.body();
-        String messageText = requestBody
+        String messageText = requestBody;
 
-        System.out.println("IN CONTROLLER MESSAGE TEXT OF REQUEST");
-        System.out.println(messageText);
+        // System.out.println("IN CONTROLLER MESSAGE TEXT OF REQUEST");
+        // System.out.println(messageText);
 
         // use message Service to update message
         Message updatedMessage = messageService.updateMessageText(messageId, messageText);
@@ -201,5 +201,22 @@ public class SocialMediaController {
             ctx.status(200);
             ctx.json(updatedMessage);
         }
+    }
+
+
+    /**
+     * This is the handler gets all messages of a user
+     * @param ctx The Javalin Context object of the Request
+    */     
+    private void getAllMessagesOfUser(Context ctx) {
+        // get user id
+        int userId = Integer.valueOf(ctx.pathParam("account_id"), 10);
+
+        // get messages
+        List<Message> messages = messageService.getAllMessagesOfUser(userId);
+
+        // send response
+        ctx.status(200);
+        ctx.json(messages);
     }
 }

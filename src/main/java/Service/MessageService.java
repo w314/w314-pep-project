@@ -97,7 +97,7 @@ public class MessageService {
         return messageDAO.deleteMessageById(messageId);
     }    
 
-        /**
+    /**
      * Updates the message text of a message
      * @param int messageId: id of the message
      * @return Message: message updated
@@ -117,6 +117,16 @@ public class MessageService {
         
         // return null if messaget text is invalid
         return null;
+    }
+
+
+    /**
+     * Gets all messages of a user
+     * @param int userId: id of the user
+     * @return List<Message>: messages of user
+     */   
+    public List<Message> getAllMessagesOfUser(int userId) {
+        return messageDAO.getAllMessagesOfUser(userId);
     }
 
 }

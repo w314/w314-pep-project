@@ -46,10 +46,7 @@ public class AccountDAOmySQLImpl implements AccountDAO {
                 // return new account
                 return new Account(account_id, account.getUsername(), account.getPassword());
             }
-
-            // this would be the place to close the connection
-            // conn.close();
-        
+       
         } catch(SQLException sqle) {
             sqle.printStackTrace();
         }
