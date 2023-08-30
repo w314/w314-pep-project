@@ -19,11 +19,12 @@ public interface MessageDAO {
     // READ
     // get all messages
     public List<Message> getAllMessages();
+    // get message by id
+    public Message getMessageByMessageId(int messageId);
+
     
     // get all messages of a user
     // public List<Message> getAllMessagesByUserId(int userId);
-    // get message by id
-    // public Message getAccountById(int messageId);
 
     // UPDATE
     // public boolean updateMessageById(int messageId, String messageBody);

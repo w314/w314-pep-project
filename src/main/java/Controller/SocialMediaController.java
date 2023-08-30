@@ -43,6 +43,7 @@ public class SocialMediaController {
         app.post("/login", this::login);
         app.post("/messages", this::createMessage);
         app.get("/messages", this::getAllMessages);
+        app.get("/messages/{message_id}", this::getMessageByMessageId);
 
         // return javalin app
         return app;
@@ -131,4 +132,25 @@ public class SocialMediaController {
         ctx.status(200);
         ctx.json(messages);
     }
+
+
+    /**
+     * This is the handler for getting a messages by message id
+     * @param ctx The Javalin Context object of the Request
+    */    
+    private void getMessageByMessageId(Context ctx) {
+        
+        // get message id from context object and cast it as an integer
+        int messageId = Integer.valueOf(ctx.pathParam("message_id"), 10);
+
+        // user messageService to get message
+        Message message = messageService.getMessageByMessageId(messageId);
+
+        // set response
+        ctx.status(200);
+        if(message != null) {
+            ctx.json(message);
+        }
+    }
+
 }

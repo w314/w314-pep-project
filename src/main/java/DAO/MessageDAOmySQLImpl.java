@@ -80,4 +80,31 @@ public class MessageDAOmySQLImpl implements MessageDAO {
         // return list of messages
         return messages;
     }
+
+
+    /**
+     * Gets message by message id 
+     * @param int messageId
+     * @return Message : the message returned
+     */    
+    public Message getMessageByMessageId(int messageId) {
+        try {
+            Connection conn = ConnectionUtil.getConnection();
+
+            String sql = "SELECT * FROM message WHERE message_id = ?;";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, messageId);
+
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()) {
+                return new Message(rs.getInt("message_id"), rs.getInt("posted_by"), rs.getString("message_text"), rs.getLong("time_posted_epoch"));
+            }
+        } catch(SQLException sqle) {
+            sqle.printStackTrace();
+        }
+
+        return null;
+
+    }
 }
