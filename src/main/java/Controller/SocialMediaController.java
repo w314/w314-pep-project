@@ -8,7 +8,6 @@ import Model.Account;
 
 // import Account Service
 import Service.AccountService;
-import Service.AccountServiceImpl;
 
 /**
  * TODO: You will need to write your own endpoints and handlers for your controller. The endpoints you will need can be
@@ -21,7 +20,7 @@ public class SocialMediaController {
 
     // constructor
     public SocialMediaController() {
-        accountService = new AccountServiceImpl();
+        accountService = new AccountService();
     }
 
     /**
@@ -30,30 +29,27 @@ public class SocialMediaController {
      * @return a Javalin app object which defines the behavior of the Javalin controller.
      */
     public Javalin startAPI() {
+        // create javalin app
         Javalin app = Javalin.create();
-        app.get("example-endpoint", this::exampleHandler);
 
         // create endpoints
         app.post("/register", this::createUser);
+        app.post("/login", this::login);
+
+        // return javalin app
         return app;
     }
 
     /**
      * This is the handler for registering a new user.
-     * @param context The Javalin Context object of the Request
+     * @param ctx The Javalin Context object of the Request
      */
     private void createUser(Context ctx) {
         // get information from request ctx object
         Account account = ctx.bodyAsClass(Account.class);
-
-        System.out.println("REQUEST BODY RECEIVED");
-        System.out.println(account);
         
         // call account service to validate input and create account
         Account accountCreated = accountService.createAccount(account);
-
-        System.out.println("In Controller after service call");
-        System.out.println(accountCreated);
         
         // send response based on the result of the service call
         // if account was succesfully created
@@ -70,13 +66,30 @@ public class SocialMediaController {
 
     }
 
+
     /**
-     * This is an example handler for an example endpoint.
-     * @param context The Javalin Context object manages information about both the HTTP request and response.
+     * This is the handler for user login.
+     * @param ctx The Javalin Context object of the Request
      */
-    private void exampleHandler(Context context) {
-        context.json("sample text");
+    private void login(Context ctx) {
+        
+        // get user information form the request body
+        Account user = ctx.bodyAsClass(Account.class);
+        
+        // validate login with accountService
+        Account validatedUser = accountService.login(user);
+
+        // if there is validated user returned
+        if(validatedUser != null) {
+            // send 200 status code
+            ctx.status(200);
+            // send user object in response body as json
+            ctx.json(validatedUser);
+
+        // if user could not be validated
+        } else {
+            // send 401 error code
+            ctx.status(401);
+        }
     }
-
-
 }

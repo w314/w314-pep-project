@@ -4,15 +4,15 @@ package DAO;
 //import Account class from Model package
 import Model.Account;
 
-// AccountDAO interface defines what interaction we can have
-// with the Account table
+// AccountDAO interface defines what interaction 
+// we can have with the account table
 public interface AccountDAO {
 
     // CRUD Operations necessary for this App
 
     // CREATE
-    public Account createAccount(String userName, String password);
+    public Account createAccount(String username, String password);
 
     // READ
-    // public Account getAccountById();
+    public Account getAccountByUsername(String username);
 }

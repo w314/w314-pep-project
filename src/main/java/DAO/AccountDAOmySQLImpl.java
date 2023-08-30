@@ -11,12 +11,15 @@ import java.sql.*;
 
 public class AccountDAOmySQLImpl implements AccountDAO {
 
+
+    /**
+     * Creates new users in the accounts table 
+     * @param String username
+     * @param String password
+     * @return Account : the user account added to the database
+     */
     @Override
     public Account createAccount(String username, String password) {
-
-        System.out.println("IN DAO inputs recieved");
-        System.out.println(username);
-        System.out.println(password);
         try {
             // use ConnectionUtil to get connection
             // it is a static method I can call on the class
@@ -53,6 +56,39 @@ public class AccountDAOmySQLImpl implements AccountDAO {
         }
 
         return null;
+    }
 
+
+    /**
+     * Gets user account from account table
+     * where username matches the username parameter
+     * @param String username
+     * @return Account : the user account returned from the database
+     */    
+    @Override
+    public Account getAccountByUsername(String username) {
+
+        try {
+            
+            Connection conn = ConnectionUtil.getConnection();
+
+            String sql = "SELECT * FROM acccount WHERE username = ?";
+
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, username);
+            
+            // use executeQuery method to get resultset
+            ResultSet rs = ps.executeQuery();
+
+            // process resultset and return account
+            while(rs.next()) {
+                return new Account(rs.getInt("account_id"), rs.getString("username"), rs.getString("password"));
+            }
+
+        } catch(SQLException sqle) {
+            sqle.printStackTrace();
+        }
+
+        return null;
     }
 }
