@@ -6,6 +6,12 @@ import java.sql.*;
 
 public class MessageDAOmySQLImpl implements MessageDAO {
 
+
+    /**
+     * Creates new message in the message table 
+     * @param Message message: message to be created
+     * @return Message : the message account added to the database
+     */
     @Override
     public Message createMessage(Message message) {
 
@@ -29,6 +35,7 @@ public class MessageDAOmySQLImpl implements MessageDAO {
             }
 
             return null;
+            
         } catch(SQLException sqle) {
             sqle.printStackTrace();
         }

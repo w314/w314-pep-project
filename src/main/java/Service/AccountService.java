@@ -25,7 +25,7 @@ public class AccountService{
         
         // if account if valid create account
         if(validAccount) {
-            return accountDAO.createAccount(account.username, account.password);
+            return accountDAO.createAccount(account);
         }
 
         // return null if account was invalid
@@ -38,9 +38,11 @@ public class AccountService{
      * @return boolean : true for valid, false for invalid
      */    
     private boolean validUsername(String username) {
-        System.out.println("IN VALIDUSERNAME METHOD:");
-        System.out.println(username);
         if(username == null) return false;
+        // check if username already exists in database
+        Account userWithSameUserName = accountDAO.getAccountByUsername(username);
+        // if there is alreay a user with the same username return false
+        if(userWithSameUserName != null) return false;
         return true;
     }
 

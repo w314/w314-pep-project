@@ -100,7 +100,7 @@ public class SocialMediaController {
 
 
     /**
-     * This is the handler for user login.
+     * This is the handler for creating a new message.
      * @param ctx The Javalin Context object of the Request
      */
     private void createMessage(Context ctx) {

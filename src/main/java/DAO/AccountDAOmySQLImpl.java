@@ -13,13 +13,12 @@ public class AccountDAOmySQLImpl implements AccountDAO {
 
 
     /**
-     * Creates new users in the accounts table 
-     * @param String username
-     * @param String password
+     * Creates new user in the account table 
+     * @param Account account:  user to be created
      * @return Account : the user account added to the database
      */
     @Override
-    public Account createAccount(String username, String password) {
+    public Account createAccount(Account account) {
         try {
             // use ConnectionUtil to get connection
             // it is a static method I can call on the class
@@ -33,8 +32,8 @@ public class AccountDAOmySQLImpl implements AccountDAO {
             // to make sure the generated account_id is returned
             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             // set the parameters
-            ps.setString(1, username);
-            ps.setString(2, password);
+            ps.setString(1, account.getUsername());
+            ps.setString(2, account.getPassword());
 
             // execute preparedStatement
             ps.executeUpdate();      
@@ -45,7 +44,7 @@ public class AccountDAOmySQLImpl implements AccountDAO {
                 // get returned account_id
                 int account_id = keys.getInt("account_id");                
                 // return new account
-                return new Account(account_id, username, password);
+                return new Account(account_id, account.getUsername(), account.getPassword());
             }
 
             // this would be the place to close the connection
@@ -90,5 +89,32 @@ public class AccountDAOmySQLImpl implements AccountDAO {
         }
 
         return null;
+    }
+
+
+    @Override
+    public Account getAccountByAccountId(int accountId) {
+        
+        try {
+
+            Connection conn = ConnectionUtil.getConnection();
+
+            String sql = "SELECT * FROM account WHERE account_id = ?;";
+
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, accountId);
+
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()) {
+                return new Account(rs.getInt("account_id"), rs.getString("username"), rs.getString("password"));
+            }
+        
+        } catch(SQLException sqle) {
+            sqle.printStackTrace();
+        }
+
+        return null;
+
     }
 }
