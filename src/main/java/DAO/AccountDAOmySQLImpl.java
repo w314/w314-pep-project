@@ -71,7 +71,7 @@ public class AccountDAOmySQLImpl implements AccountDAO {
             
             Connection conn = ConnectionUtil.getConnection();
 
-            String sql = "SELECT * FROM acccount WHERE username = ?";
+            String sql = "SELECT * FROM account WHERE username = ?";
 
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, username);

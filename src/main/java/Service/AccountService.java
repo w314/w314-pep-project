@@ -39,6 +39,8 @@ public class AccountService{
      */    
     private boolean validUsername(String username) {
         if(username == null) return false;
+        // check for blank username
+        if(username.length() == 0) return false;
         // check if username already exists in database
         Account userWithSameUserName = accountDAO.getAccountByUsername(username);
         // if there is alreay a user with the same username return false
@@ -67,13 +69,16 @@ public class AccountService{
 
         // get user from the database with the username provided
         Account userInDatabase = accountDAO.getAccountByUsername(user.getUsername());
-
+        System.out.println("USER TRYING TO LOG IN:");
+        System.out.println(user);
+        System.out.println("USER IN DATABASE:");
+        System.out.println(userInDatabase);
         // if username does not exist in the database
         // and no users were returned return null
         if(userInDatabase == null) return null;
 
         // if password provided matches the one in the database return user
-        if(userInDatabase.getPassword() == user.getPassword()) return userInDatabase;
+        if(userInDatabase.getPassword().equals(user.getPassword())) return userInDatabase;
 
         // if password did not match return null
         return null;

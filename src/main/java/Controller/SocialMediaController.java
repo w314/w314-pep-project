@@ -83,7 +83,8 @@ public class SocialMediaController {
         
         // validate login with accountService
         Account validatedUser = accountService.login(user);
-
+        System.out.println("IN CONTROLLER, VALIDATED USER:");
+        System.out.println(validatedUser);
         // if there is validated user returned
         if(validatedUser != null) {
             // send 200 status code
