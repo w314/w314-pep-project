@@ -11,7 +11,6 @@ import java.sql.*;
 
 public class AccountDAOmySQLImpl implements AccountDAO {
 
-
     /**
      * Creates new user in the account table 
      * @param Account account:  user to be created

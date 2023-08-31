@@ -14,7 +14,7 @@ public class MessageDAOmySQLImpl implements MessageDAO {
     /**
      * Creates new message in the message table 
      * @param Message message: message to be created
-     * @return Message : the message account added to the database
+     * @return Message : the message added to the database
      */
     @Override
     public Message createMessage(Message message) {
@@ -89,6 +89,7 @@ public class MessageDAOmySQLImpl implements MessageDAO {
      */   
     @Override
     public Message getMessageByMessageId(int messageId) {
+        
         try {
             Connection conn = ConnectionUtil.getConnection();
 
@@ -112,29 +113,31 @@ public class MessageDAOmySQLImpl implements MessageDAO {
     /**
      * Deletes message by message id 
      * @param int messageId
-     * @return Message : the message deleted
+     * @return boolean : true for succesfull deletion 
      */
     @Override
-    public Message deleteMessageById(int messageId) {
-        
-        // check if message in database
-        Message message = this.getMessageByMessageId(messageId);
+    public boolean deleteMessageById(int messageId) {
+  
+        try {
+            // establish database connection
+            Connection conn = ConnectionUtil.getConnection();
 
-        // if message is in database delete it
-        if(message != null) {
-            try {
-                Connection conn = ConnectionUtil.getConnection();
-                String sql = "DELETE FROM message WHERE message_id = ?;";
-                PreparedStatement ps = conn.prepareStatement(sql);
-                ps.setInt(1, messageId);
-    
-                ps.executeUpdate();
-            } catch(SQLException sqle) {
-                sqle.printStackTrace();
-            }
+            // create preparedStatment
+            String sql = "DELETE FROM message WHERE message_id = ?;";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, messageId);
+
+            // execute query and store number of deleted rows
+            int numberOfDeletedRows = ps.executeUpdate();
+
+            // return true if the delete was succesfull and 1 record was deleted
+            if(numberOfDeletedRows == 1) return true;
+
+        } catch(SQLException sqle) {
+            sqle.printStackTrace();
         }
 
-        return message;
+        return false;
     }  
     
     
@@ -157,15 +160,10 @@ public class MessageDAOmySQLImpl implements MessageDAO {
             ps.setString(1, messageText);
             ps.setInt(2, messageId);
 
-            System.out.println("IN DAO PS:");
-            System.out.println(ps);
-
             ps.executeUpdate();
             
             // get updated message from database and return it
             updatedMessage = this.getMessageByMessageId(messageId);
-            System.out.println("IN DAO UPDATED MESSAGE:");
-            System.out.println(updatedMessage);
 
         } catch(SQLException sqle) {
             sqle.printStackTrace();

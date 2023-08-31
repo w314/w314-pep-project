@@ -94,7 +94,18 @@ public class MessageService {
      * @return Message: message deleted
      */   
     public Message deleteMessageById(int messageId) {
-        return messageDAO.deleteMessageById(messageId);
+              
+        // check if message in database
+        Message retreivedMessage = this.getMessageByMessageId(messageId);
+
+        // if message is in the database delete it
+        if(retreivedMessage != null) {
+            // if deletion is succesfull return message
+            if(messageDAO.deleteMessageById(messageId)) return retreivedMessage;
+        }
+
+        // in all other cases return null
+        return null;
     }    
 
     /**

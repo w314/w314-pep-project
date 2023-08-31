@@ -1,11 +1,11 @@
 // declare package
 package DAO;
 
-// import Account class from Model package
+// import Message Model
 import Model.Message;
 
-// import java.util.* to use the List Interface
-import java.util.*;
+// import the List Interface
+import java.util.List;
 
 // MessageDAO interface defines what interaction we can have
 // with the Message table
@@ -25,10 +25,11 @@ public interface MessageDAO {
     public List<Message> getAllMessagesOfUser(int userId);
 
     // UPDATE
+    // update message by id
     public Message updateMessageById(int messageId, String messageText);
 
     // DELETE
-    public Message deleteMessageById(int messageId);
-
-
+    // delete message by id
+    public boolean deleteMessageById(int messageId);
+    
 }
