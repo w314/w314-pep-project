@@ -29,13 +29,27 @@ public class MessageService {
      * @return Message : the message added to the database
      */    
     public Message createMessage(Message message) {
-        
-        boolean validMessage = validMessageText(message.getMessage_text()) && validPostedBy(message.getPosted_by());
-        if(validMessage) {
+
+        if(validMessage(message)) {
             Message createdMessage = messageDAO.createMessage(message);
             if(createdMessage != null) return createdMessage;
         }
         return null;
+    }
+
+
+    /**
+     * Validates message received
+     * @param Message message
+     * @return boolean : true for valid message
+     */    
+    private boolean validMessage(Message message) {
+        // validate message text
+        if(!validMessageText(message.getMessage_text())) return false;
+        // validate user
+        if(!validPostedBy(message.getPosted_by())) return false;
+
+        return true;
     }
 
 
