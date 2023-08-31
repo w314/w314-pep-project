@@ -184,12 +184,14 @@ public class SocialMediaController {
         
         // get message id
         int messageId = Integer.valueOf(ctx.pathParam("message_id"), 10);
-        // get message text
-        String requestBody = ctx.body();
-        String messageText = requestBody;
-
-        // System.out.println("IN CONTROLLER MESSAGE TEXT OF REQUEST");
-        // System.out.println(messageText);
+        // get message text from request body
+        Message message = ctx.bodyAsClass(Message.class);
+        String messageText = message.getMessage_text();
+        
+        System.out.println("IN CONTROLLER MESSAGE ID IN REQUEST");
+        System.out.println(messageId);
+        System.out.println("IN CONTROLLER MESSAGE TEXT IN REQUEST");
+        System.out.println(messageText);
 
         // use message Service to update message
         Message updatedMessage = messageService.updateMessageText(messageId, messageText);

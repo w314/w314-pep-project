@@ -146,25 +146,32 @@ public class MessageDAOmySQLImpl implements MessageDAO {
     @Override
     public Message updateMessageById(int messageId, String messageText) {
 
+        Message updatedMessage = null;
+
         // if there is a message by the id provided update the message text
         try {
             Connection conn = ConnectionUtil.getConnection();
 
-            String sql = "UPDATE message SET message_text = ? WHERE message_id = ?;";
+            String sql = "UPDATE message SET message_text = ? WHERE message_id = ?";
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, messageId);
-            ps.setString(2, messageText);
+            ps.setString(1, messageText);
+            ps.setInt(2, messageId);
+
+            System.out.println("IN DAO PS:");
+            System.out.println(ps);
 
             ps.executeUpdate();
             
             // get updated message from database and return it
-            return this.getMessageByMessageId(messageId);
+            updatedMessage = this.getMessageByMessageId(messageId);
+            System.out.println("IN DAO UPDATED MESSAGE:");
+            System.out.println(updatedMessage);
 
         } catch(SQLException sqle) {
             sqle.printStackTrace();
         }
 
-        return null;
+        return updatedMessage;
     }
 
 
