@@ -34,6 +34,7 @@ public class MessageService {
             Message createdMessage = messageDAO.createMessage(message);
             if(createdMessage != null) return createdMessage;
         }
+
         return null;
     }
 
@@ -64,6 +65,7 @@ public class MessageService {
         if(messageText.length() == 0) return false;
         // check for too long message
         if(messageText.length() > 254) return false;
+        
         return true;
     }
 

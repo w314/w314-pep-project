@@ -75,7 +75,6 @@ public class SocialMediaController {
             // set status to 400
             ctx.status(400);
         }
-
     }
 
 
@@ -188,11 +187,6 @@ public class SocialMediaController {
         Message message = ctx.bodyAsClass(Message.class);
         String messageText = message.getMessage_text();
         
-        System.out.println("IN CONTROLLER MESSAGE ID IN REQUEST");
-        System.out.println(messageId);
-        System.out.println("IN CONTROLLER MESSAGE TEXT IN REQUEST");
-        System.out.println(messageText);
-
         // use message Service to update message
         Message updatedMessage = messageService.updateMessageText(messageId, messageText);
 
